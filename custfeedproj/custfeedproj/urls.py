@@ -16,7 +16,8 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from . import views
+#from . import views
+from custfeedapp import views
 
 urlpatterns = [
     url(r'^custfeedapp/', include('custfeedapp.urls')),

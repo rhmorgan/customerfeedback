@@ -10,6 +10,7 @@ class Office(models.Model):
 	latitude = models.DecimalField(max_digits=10, decimal_places=6)
 	longitude = models.DecimalField(max_digits=10, decimal_places=6)
 	picture = models.FileField
+#	image = models.ImageField(upload_to="images/officethumbs/")
 	active_ind = models.BooleanField
 	created_at = models.DateTimeField(auto_now_add=True)
 	owner = models.ForeignKey('auth.User', related_name='offices')

@@ -1,3 +1,8 @@
+from django.shortcuts import render
+from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+
+
 from django.http import HttpResponse
 #from django.views.decorators.csrf import csrf_exempt
 #from rest_framework.renderers import JSONRenderer
@@ -105,10 +110,23 @@ class OfficeDetail(APIView):
 		office = self.get_object(pk) 
 		office.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
+
+"""
+
 """
 
 def index(request):
 	return HttpResponse('Rhodri says this is my app')
 
+	"""
+
+
+@csrf_protect
+@ensure_csrf_cookie
+def index(request):
+    user = authenticate(username='david', password='muncie')
+    if user is not None:
+        login(request, user)
+        return render(request, 'custfeedapp/testme.html')
 
 
