@@ -28,6 +28,7 @@ admin.autodiscover() #Added from tweeter
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
 router.register(r'offices', views.OfficeViewSet)
+router.register(r'resources', views.ResourceViewSet)
 router.register(r'users', views.UserViewSet)
 
 # The API URLs are now determined automatically by the router.
@@ -37,5 +38,6 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 	url(r'^$', views.index, name='index'),
+#	url(r'^media/', static.custfeedapp, name='index'),	
 ]
 

@@ -11,7 +11,7 @@ import sys
 import os
 
 from rest_framework import serializers
-from custfeedapp.models import Office
+from custfeedapp.models import Office, Resource, Employee
 from django.contrib.auth.models import User
 
 class OfficeSerializer(serializers.ModelSerializer):
@@ -19,7 +19,7 @@ class OfficeSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		model = Office
-		fields = ('id','title','street','city','state','zip','latitude','longitude','created_at', 'owner')
+		fields = ('id','title','street','city','state','zip','latitude','longitude','created_at', 'owner', 'image')
 
 class UserSerializer(serializers.ModelSerializer):
 	offices = serializers.PrimaryKeyRelatedField(many=True, queryset=Office.objects.all())
@@ -27,6 +27,21 @@ class UserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		fields = ('id','username','offices')
+
+
+class ResourceSerializer(serializers.ModelSerializer):
+#	offices = serializers.PrimaryKeyRelatedField(many=True, queryset=Office.objects.all())
+#	employees = serializers.PrimaryKeyRelatedField(many=False, queryset=Employee.objects.all())
+	first_name = serializers.ReadOnlyField(source='employee.first_name')
+	last_name = serializers.ReadOnlyField(source='employee.last_name')
+	middle_name = serializers.ReadOnlyField(source='employee.middle_name')
+	position = serializers.ReadOnlyField(source='employee.position')
+	
+
+	class Meta:
+		model = Resource
+		fields = ('id', 'employee', 'office', 'first_name', 'last_name', 'middle_name', 'position')
+
 
 def main():
 	pass

@@ -1,0 +1,31 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+			<!--Sidebar content-->
+		
+			Search:<input ng-model="query">
+			Sort by:
+			<select ng-model="orderProp">
+			  <option value="first_name">First Name</option>
+			  <option value="last_name">Last Name</option>
+			  <option value="position">Position</option>
+			</select>
+			[[orderProp]]
+		</div>
+		
+		<div class="col-md-10">
+			<!--Body content-->
+			
+			<ul class="phones">
+				<li ng-repeat="resource in resources | filter:query | orderBy:orderProp" class="thumbnail">
+					<a href="#/resources[[resource.id]]" class="thumb"></a>
+					<a href="#/offices/[[resource.id]]">[[resource.first_name]] [[resource.last_name]]</a>
+					<p>[[resource.position]]</p>
+				  	<p><a href="#/evaluation/[[resource.id]]">How did I do?</a></p>	
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<pre>[[resources | filter:query | orderBy:orderProp | json]]</pre>

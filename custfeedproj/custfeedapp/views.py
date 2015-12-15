@@ -1,17 +1,20 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
-
+#from django_filters import *
+from rest_framework import filters
+#from django-crispy-forms import *
 
 from django.http import HttpResponse
 #from django.views.decorators.csrf import csrf_exempt
 #from rest_framework.renderers import JSONRenderer
 #from rest_framework.parsers import JSONParser
 
-from custfeedapp.models import Office
+from custfeedapp.models import Office, Resource
 from django.contrib.auth.models import User
 from custfeedapp.serializers import OfficeSerializer
 from custfeedapp.serializers import UserSerializer
+from custfeedapp.serializers import ResourceSerializer
 
 
 from rest_framework import generics
@@ -40,6 +43,12 @@ class OfficeViewSet(viewsets.ModelViewSet):
 	def perform_create(self, serializer):
 	    serializer.save(owner=self.request.user)
 
+class ResourceViewSet(viewsets.ModelViewSet):
+	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+	queryset = Resource.objects.all()
+	serializer_class = ResourceSerializer
+	filter_backends = (filters.DjangoFilterBackend,)
+	filter_fields = ('id', 'office', 'employee')
 
 """
 @api_view(('GET',))
@@ -127,6 +136,6 @@ def index(request):
     user = authenticate(username='david', password='muncie')
     if user is not None:
         login(request, user)
-        return render(request, 'custfeedapp/testme.html')
+        return render(request, 'custfeedapp/indexn.html')
 
 
