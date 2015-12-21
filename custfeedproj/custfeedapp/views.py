@@ -10,12 +10,12 @@ from django.http import HttpResponse
 #from rest_framework.renderers import JSONRenderer
 #from rest_framework.parsers import JSONParser
 
-from custfeedapp.models import Office, Resource
+from custfeedapp.models import Office, Resource, Evaluation
 from django.contrib.auth.models import User
 from custfeedapp.serializers import OfficeSerializer
 from custfeedapp.serializers import UserSerializer
 from custfeedapp.serializers import ResourceSerializer
-
+from custfeedapp.serializers import EvaluationSerializer
 
 from rest_framework import generics
 from rest_framework import permissions
@@ -50,6 +50,13 @@ class ResourceViewSet(viewsets.ModelViewSet):
 	filter_backends = (filters.DjangoFilterBackend,)
 	filter_fields = ('id', 'office', 'employee')
 
+class EvaluationViewSet(viewsets.ModelViewSet):
+	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+	queryset = Evaluation.objects.all()
+	serializer_class = EvaluationSerializer
+
+	def perform_create(self, serializer):
+	    serializer.save(owner=self.request.user)
 """
 @api_view(('GET',))
 def api_root(request,format=None):

@@ -11,7 +11,7 @@ import sys
 import os
 
 from rest_framework import serializers
-from custfeedapp.models import Office, Resource, Employee
+from custfeedapp.models import Office, Resource, Employee, Evaluation
 from django.contrib.auth.models import User
 
 class OfficeSerializer(serializers.ModelSerializer):
@@ -27,6 +27,14 @@ class UserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		fields = ('id','username','offices')
+
+class EvaluationSerializer(serializers.ModelSerializer):
+	owner = serializers.ReadOnlyField(source='owner.username')
+#	resource = serializers.PrimaryKeyRelatedField(many=True, queryset=Resource.objects.all())
+
+	class Meta:
+		model = Evaluation
+		fields = ('id','resource', 'owner', 'grade', 'comments')
 
 
 class ResourceSerializer(serializers.ModelSerializer):

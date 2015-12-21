@@ -33,10 +33,10 @@ class Resource(models.Model):
 	employee = models.ForeignKey(Employee) 
 	office = models.ForeignKey(Office)
 
-#class Evaluation(models.Model):
-#	resource = models.ForeignKey(Resource)
-#	owner = models.ForeignKey('auth.User')
-#	grade = models.IntegerField
-#	comments = models.TextField
+class Evaluation(models.Model):
+	resource = models.ForeignKey(Resource)
+	owner = models.ForeignKey('auth.User')
+	grade = models.IntegerField(blank=False, null=False, default=3)
+	comments = models.TextField(blank=True, null=False)
 	
 	

@@ -1,10 +1,28 @@
-<h1>How did <span ng-repeat="t in testthis">
-	[[t.first_name]]		
-</span> do?</h1>
+<div class="container">
+<div class="col-sm-8 col-sm-offset-2">
+    <div class="page-header"><h1>How did <span ng-repeat="t in testthis">
+		[[t.first_name]]		
+	</span> do?</h1></div>
+    <!-- FORM -->
+    <form name="evaluationForm" ng-submit="submitEvaluation([[formData]])">
+    <div class="form-group">
+	[[resource.id]] here
+    <label>Grade</label><BR>
+		<label class="radio-inline"><input type="radio" name="grade" ng-model="formData.grade" value="3">Amazing</label>
+		<label class="radio-inline"><input type="radio" name="grade" ng-model="formData.grade" value="2">OK</label>
+		<label class="radio-inline"><input type="radio" name="grade" ng-model="formData.grade" value="1">Needs Work</label>
+        <span ng-show="errorName">[[errorGrade]]</span>
+    </div>
+   <div class="form-group">
+        <label>Comments</label>
+	  	<textarea class="form-control" rows="5" id="comments" ng-model="formData.comments"></textarea>
+        <span ng-show="errorUserName">[[errorComment]]</span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</div>
 
-
-<p ng-repeat="t in testthis">
-	[[t.id]]
-	[[t.first_name]]	
-	[[t.last_name]]		
-</p>wje
+<pre>
+	[[formData]]
+</pre>

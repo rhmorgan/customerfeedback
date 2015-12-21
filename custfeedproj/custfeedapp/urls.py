@@ -30,6 +30,8 @@ router = DefaultRouter()
 router.register(r'offices', views.OfficeViewSet)
 router.register(r'resources', views.ResourceViewSet)
 router.register(r'users', views.UserViewSet)
+router.register(r'evaluations', views.EvaluationViewSet)
+
 
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.

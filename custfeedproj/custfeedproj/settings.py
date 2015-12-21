@@ -123,7 +123,7 @@ REST_FRAMEWORK = {
     )
 }
 """
+#APPEND_SLASH=False
 
-
-
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
