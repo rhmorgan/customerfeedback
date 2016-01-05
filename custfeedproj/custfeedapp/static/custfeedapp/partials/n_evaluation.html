@@ -6,11 +6,13 @@
     <!-- FORM -->
     <form name="evaluationForm" ng-submit="submitEvaluation([[formData]])">
     <div class="form-group">
-	[[resource.id]] here
+	[[resource.id]]
     <label>Grade</label><BR>
-		<label class="radio-inline"><input type="radio" name="grade" ng-model="formData.grade" value="3">Amazing</label>
-		<label class="radio-inline"><input type="radio" name="grade" ng-model="formData.grade" value="2">OK</label>
-		<label class="radio-inline"><input type="radio" name="grade" ng-model="formData.grade" value="1">Needs Work</label>
+		<label class="radio-inline"><input type="radio" name="grade" ng-model="formData.grade" value="5">5 Stars</label>	
+		<label class="radio-inline"><input type="radio" name="grade" ng-model="formData.grade" value="4">4 Stars</label>
+		<label class="radio-inline"><input type="radio" name="grade" ng-model="formData.grade" value="3">3 Stars</label>
+		<label class="radio-inline"><input type="radio" name="grade" ng-model="formData.grade" value="2">2 Stars</label>
+		<label class="radio-inline"><input type="radio" name="grade" ng-model="formData.grade" value="1">1 Star</label>
         <span ng-show="errorName">[[errorGrade]]</span>
     </div>
    <div class="form-group">

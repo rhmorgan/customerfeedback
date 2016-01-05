@@ -44,11 +44,12 @@ class ResourceSerializer(serializers.ModelSerializer):
 	last_name = serializers.ReadOnlyField(source='employee.last_name')
 	middle_name = serializers.ReadOnlyField(source='employee.middle_name')
 	position = serializers.ReadOnlyField(source='employee.position')
+	picture = serializers.CharField(source='employee.picture')
 	
 
 	class Meta:
 		model = Resource
-		fields = ('id', 'employee', 'office', 'first_name', 'last_name', 'middle_name', 'position')
+		fields = ('id', 'employee', 'office', 'first_name', 'last_name', 'middle_name', 'position','picture')
 
 
 def main():

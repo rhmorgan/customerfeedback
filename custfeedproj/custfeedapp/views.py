@@ -54,6 +54,8 @@ class EvaluationViewSet(viewsets.ModelViewSet):
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 	queryset = Evaluation.objects.all()
 	serializer_class = EvaluationSerializer
+	filter_backends = (filters.DjangoFilterBackend,)
+	filter_fields = ('id','resource', 'owner', 'grade')
 
 	def perform_create(self, serializer):
 	    serializer.save(owner=self.request.user)

@@ -18,10 +18,10 @@
 			
 			<ul class="phones">
 				<li ng-repeat="resource in resources | filter:query | orderBy:orderProp" class="thumbnail">
-					<a href="#/resources[[resource.id]]" class="thumb"></a>
-					<a href="#/offices/[[resource.id]]">[[resource.first_name]] [[resource.last_name]]</a>
+					<a href="#/evaluation[[resource.id]]" class="thumb"><img ng-src="static/custfeedapp/[[resource.picture]]"></a>
+					<a href="#/evaluation/[[resource.id]]">[[resource.first_name]] [[resource.last_name]]</a>
 					<p>[[resource.position]]</p>
-				  	<p><a href="#/evaluation/[[resource.id]]">How did I do?</a></p>	
+				  	<p><a href="#/evaluation/[[resource.id]]">How did [[resource.first_name]] do?</a></p>	
 				</li>
 			</ul>
 		</div>
