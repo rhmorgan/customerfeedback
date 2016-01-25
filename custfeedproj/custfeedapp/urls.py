@@ -40,6 +40,9 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 	url(r'^$', views.index, name='index'),
+	url(r'^register/', views.register, name='register'), # ADD NEW PATTERN!
+    url(r'^login/$', views.user_login, name='login'),
+	url(r'^logout/$', views.user_logout, name='logout'),
 #	url(r'^media/', static.custfeedapp, name='index'),	
 ]
 

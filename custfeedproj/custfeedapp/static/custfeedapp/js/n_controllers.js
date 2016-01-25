@@ -26,22 +26,44 @@ officeControllers.controller('CompleteCtrl', ['$scope', 'Office', 'User', 'AuthU
 			
 //			$scope.reviewCount = 10
 
-			var width = 420,
+			var width = 350,
 			    barHeight = 20;
-
+				spaceForLabels = 150
+			
+			
 			var x = d3.scale.linear()
-			    .range([0, width]);
+			    .range([0, width-spaceForLabels]);
 
 			var chart = d3.select(".chart")
 			    .attr("width", width);
 
 				d3.json("/custfeedapp/api/evaluations.json?owner="+ AuthUser.id, function(error, rawdata) {
-
+					
+//					b = [{key:"0", values:0}, {key:"1", values:0}, {key:"2", values:0}, {key:"3", values:0}, {key:"4", values:0}, {key:"5", values:0}]
+					//Ensure we have bars for each option
+					var initialdata = [];
+					var i;
+					for (i = 1; i < 6; i++) {
+					    initialdata.push({key:i, values:0});
+					}
+					
 					var data = d3.nest()
 					  .key(function(d) { return d.grade; })
 					  .rollup(function(v) { return v.length; })
 					  .entries(rawdata);
-//					console.log(JSON.stringify(data));
+
+					data = data.concat(initialdata)
+
+					data = d3.nest()
+							.key(function(d){return d.key;})
+							.rollup(function(d){
+								return d3.sum(d, function(g) {return g.values; });
+							}).entries(data);
+
+
+
+					console.log('rhodri')
+					console.log(JSON.stringify(data));
 
 				  x.domain([0, d3.max(data, function(d) { return d.values; })]);
 //				  console.log(d3.max(data, function(d) { return d.values; }))
@@ -55,7 +77,7 @@ officeControllers.controller('CompleteCtrl', ['$scope', 'Office', 'User', 'AuthU
 	   			  var bar = chart.selectAll("g")
 				      .data(data)
 				    .enter().append("g")
-				      .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+				      .attr("transform", function(d, i) { return "translate(" + spaceForLabels + "," + i * barHeight + ")"; });
 //				  console.log(function(d, i) { return "translate(0," + i * barHeight + ")"; })
 
 				  bar.append("rect")
@@ -63,10 +85,30 @@ officeControllers.controller('CompleteCtrl', ['$scope', 'Office', 'User', 'AuthU
 				      .attr("height", barHeight - 1);
 
 				  bar.append("text")
-				      .attr("x", function(d) { return x(d.values) - 3; })
+				      .attr("x", function(d) { return x(d.values)  - 3; })
 				      .attr("y", barHeight / 2)
 				      .attr("dy", ".35em")
+					  .attr("class", "label")
 				      .text(function(d) { return d.values; });
+				
+				  bar.append("text")
+					  .attr("class", "y-axis")
+					  .text(function(d){return d.key; 		})
+				      .attr("y", barHeight / 2)
+					  .attr("x", -10)
+				      .attr("dy", ".35em");
+				
+/*				
+				bar.append("svg:text").
+				  attr("x", function(datum, index) { return x(index) + barWidth; }).
+				  attr("y", height).
+				  attr("dx", -barWidth/2).
+				  attr("text-anchor", "middle").
+				  attr("style", "font-size: 12; font-family: Helvetica, sans-serif").
+				  text(function(datum) { return datum.year;}).
+				  attr("transform", "translate(0, 18)").
+				  attr("class", "yAxis");
+*/				
 
 				});
 			

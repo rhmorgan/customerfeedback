@@ -21,6 +21,15 @@
 </head>
 <body>
 
+{% if user.is_authenticated %}
+<a href="/custfeedapp/restricted/">Restricted Page</a><br />
+<a href="/custfeedapp/logout/">Logout</a><br />
+{% else %}
+<a href="/custfeedapp/register/">Register Here</a><br />
+<a href="/custfeedapp/login/">Login</a><br />
+{% endif %}
+
+	
 <h3 class="user-h">logged in as: {{ user.get_username }}</h3>
 
 	<div ng-view></div>
