@@ -17,6 +17,8 @@ from custfeedapp.serializers import UserSerializer
 from custfeedapp.serializers import ResourceSerializer
 from custfeedapp.serializers import EvaluationSerializer
 
+
+
 from rest_framework import generics
 from rest_framework import permissions
 from custfeedapp.permissions import IsOwnerOrReadOnly
@@ -29,6 +31,24 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
+
+from django.db.models import Sum
+from rest_framework.renderers import JSONRenderer
+
+from django.db.models import Avg
+
+
+class TopEmployeesViewSet(viewsets.ReadOnlyModelViewSet):
+	queryset = Resource.objects.all().annotate(
+		avg_grade=Avg('evaluation__grade')
+		).order_by('-avg_grade')
+	serializer_class=ResourceSerializer
+
+	filter_backends = (filters.DjangoFilterBackend,)
+	filter_fields = ('office', 'employee')
+
+	print('this is where its at2')
+	print(str(serializer_class.data))
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):

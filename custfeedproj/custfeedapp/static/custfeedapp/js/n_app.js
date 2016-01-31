@@ -36,6 +36,10 @@ propsApp.config(['$routeProvider', '$interpolateProvider', '$resourceProvider', 
         templateUrl: 'static/custfeedapp/partials/n_complete_eval.html',
         controller: 'CompleteCtrl'
       }).
+      when('/dashboard', {
+        templateUrl: 'static/custfeedapp/partials/n_dashboard.html',
+        controller: 'DashboardCtrl'
+      }).
       otherwise({
         redirectTo: '/offices'
       });

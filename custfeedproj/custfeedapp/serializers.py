@@ -49,7 +49,7 @@ class ResourceSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Resource
-		fields = ('id', 'employee', 'office', 'first_name', 'last_name', 'middle_name', 'position','picture')
+		fields = ('id', 'employee', 'office', 'first_name', 'last_name', 'middle_name', 'position','picture', 'get_grades')
 
 
 def main():

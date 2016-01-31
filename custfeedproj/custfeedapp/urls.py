@@ -31,6 +31,9 @@ router.register(r'offices', views.OfficeViewSet)
 router.register(r'resources', views.ResourceViewSet)
 router.register(r'users', views.UserViewSet)
 router.register(r'evaluations', views.EvaluationViewSet)
+router.register(r'topemployees', views.TopEmployeesViewSet)
+
+
 
 
 # The API URLs are now determined automatically by the router.
