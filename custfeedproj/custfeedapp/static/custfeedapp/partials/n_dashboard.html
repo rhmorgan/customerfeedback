@@ -10,9 +10,28 @@
   text-anchor: end;
 }
 
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
 </style>
 
 	You are on the dashboard page
+
 
     <div class="panel panel-primary">
       <div class="panel-heading">Top 5 Employees</div>
@@ -34,3 +53,22 @@
       </div>
     </div>
 
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">Trend Report</div>
+      <div class="panel-body">
+
+		<p><svg class="trendReport"></svg></p>
+
+      </div>
+    </div>
+
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">Alerts</div>
+      <div class="panel-body">
+         <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Heavy_red_%22x%22.png" alt="Smiley face" height="22" width="22"> 
+		Rhodri has had 3 negative reviews today
+
+      </div>
+    </div>

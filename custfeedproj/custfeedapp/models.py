@@ -61,6 +61,7 @@ class Evaluation(models.Model):
 	owner = models.ForeignKey('auth.User')
 	grade = models.IntegerField(blank=False, null=False, default=3)
 	comments = models.TextField(blank=True, null=False)
+	datecreated = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
 	        return '%s - %s - %s' % (self.resource, self.owner, self.grade)

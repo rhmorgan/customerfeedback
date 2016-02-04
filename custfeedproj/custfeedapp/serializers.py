@@ -34,7 +34,8 @@ class EvaluationSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Evaluation
-		fields = ('id','resource', 'owner', 'grade', 'comments')
+#		fields = ('id','resource', 'owner', 'grade', 'comments')
+		fields = ('__all__')
 
 
 class ResourceSerializer(serializers.ModelSerializer):

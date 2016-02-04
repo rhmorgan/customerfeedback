@@ -147,9 +147,188 @@ officeControllers.controller('DashboardCtrl', ['$scope', '$routeParams', '$http'
 		    topBottomEmployees("/custfeedapp/api/topemployees.json?limit=5", ".bottomEmployees");	
 			
 			
+			function trendReport(){
+				
+				var margin = {top: 20, right: 20, bottom: 30, left: 50},
+				    width = 400 - margin.left - margin.right,
+				    height = 200 - margin.top - margin.bottom;
+
+
+				var formatDate = d3.time.format("%Y-%m-%d");
+				
+				var x = d3.time.scale()
+					.range([0, width]);
+
+//					.rangeRoundBands([0, width], .1);
+
+				var y = d3.scale.linear()
+				    .range([height, 0]);
+
+				var y2 = d3.scale.linear()
+				    .range([height, 0]);	
+
+				var xAxis = d3.svg.axis()
+				    .scale(x)
+				    .orient("bottom")
+					.ticks(3);
+
+				var yAxis = d3.svg.axis()
+				    .scale(y)
+				    .orient("left")
+					.ticks(5);
+
+				var yAxisRight = d3.svg.axis()
+				    .scale(y2)
+				    .orient("right");
+
+				
+				var line = d3.svg.line()
+				    .x(function(d) { 
+						return x(d.dateConv); 
+						})
+				    .y(function(d) { return y(d.values.avg_grade); });
+
+				var line2 = d3.svg.line()
+				    .x(function(d) { 
+						return x(d.dateConv); 
+						})
+				    .y(function(d) { return y2(d.values.cnt_grade); });
+
+					
+
+				var svg = d3.select(".trendReport")
+				    .attr("width", width + margin.left + margin.right)
+				    .attr("height", height + margin.top + margin.bottom)
+				  .append("g")
+				    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 			
+//				var svg = d3.select(".trendReport").append("svg")
+//				    .attr("width", width + margin.left + margin.right)
+//				    .attr("height", height + margin.top + margin.bottom)
+//				  .append("g")
+//				    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		
+				
+				d3.json("/custfeedapp/api/evaluations.json",   function(error, data) {
+					if (error) throw error;
+					
+
+					data.forEach(function(d) {
+					  d.convDate = d.datecreated.substring(0,10);//formatDate.parse(d.datecreated.substring(0,10));
+					});
 
 
+
+					var data2 = d3.nest()
+					  .key(function(d) { 
+										return formatDate.parse(d.convDate)//d.convDate//Date(formatDate.parse(d.datecreated.substring(0,10))); 
+										})
+					  .rollup(function(v) { return {"cnt_grade": v.length,
+													"sum_grade": d3.sum(v, function(v) {return v.grade;}),
+													"avg_grade": d3.mean(v, function(v) {return v.grade;})
+										  } 
+										})
+					  .entries(data);
+					
+					data2.forEach(function(d) {
+					  d.dateConv = new Date(d.key);
+					});
+					
+					
+	//			    var parseTime = d3.time.format("%Y%m%d");
+	
+					
+				  xMin = d3.min(data2, function(element) {
+			        time = new Date(element.dateConv);
+//					console.log(time);
+			        time.setDate(time.getDate() - 1);
+			        return time
+			      });
+
+		
+			      xMax = d3.max(data2, function(element2) {
+			        time2 = new Date(element2.dateConv);
+			        time2.setDate(time2.getDate() + 1);
+			        return time2
+			      });
+		
+					console.log(xMin);
+					console.log(xMax);
+					
+					
+					  x.domain([xMin, xMax])
+					  y.domain([1,5]);
+					  y2.domain([0, d3.max(data2, function(d) { return d.values.cnt_grade; })]);
+
+
+
+					
+					  svg.append("g")
+					      .attr("class", "x axis")
+					      .attr("transform", "translate(0," + height + ")")
+					      .call(xAxis);
+					
+					 svg.append("g")
+					      .attr("class", "y axis")
+					      .call(yAxis)
+					    .append("text")
+					      .attr("transform", "rotate(-90)")
+					      .attr("y", 6)
+					      .attr("dy", ".71em")
+					      .style("text-anchor", "end")
+					      .text("Grade");
+
+
+   				   svg.append("g")				
+				        .attr("class", "y axis")	
+				        .attr("transform", "translate(" + (width - 4) + " ,0)")	
+				        .style("fill", "black")		
+				        .call(yAxisRight)
+					    .append("text")
+					      .attr("transform", "rotate(-90)")
+					      .attr("y", -15)
+					      .attr("dy", ".71em")
+					      .style("text-anchor", "end")
+					      .text("Count");
+
+					  svg.append("path")
+					      .datum(data2)
+					      .attr("class", "line")
+					      .attr("d", line);
+
+//					  svg.append("path")
+//					      .datum(data2)
+//						  .style("stroke", "red")
+//					      .attr("class", "line2")
+//					      .attr("d", line2);
+					
+					
+					var barWidth = width / (data2.length + 2)
+					
+					 svg.selectAll(".bar")
+					      .data(data2)
+					    .enter().append("rect")
+					      .attr("class", "bar")
+						  .attr("fill-opacity", ".08")
+					      .attr("x", function(d) { return x(d.dateConv)-barWidth/2; })
+					      .attr("width", barWidth)
+					      .attr("y", function(d) { return y2(d.values.cnt_grade); })
+					      .attr("height", function(d) { return height - y2(d.values.cnt_grade); });
+					
+					
+//					alert('stop');
+					
+				});				
+
+//			function type(d) {
+//				  d.datecreatednew = d.datecreated.substring(0,10)
+//				  d.close = +d.close;
+//				  return d;
+//				}
+
+			}
+
+			trendReport();
 		
 		
 	});
