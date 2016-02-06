@@ -4,6 +4,9 @@ from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 #from django_filters import *
 from rest_framework import filters
 #from django-crispy-forms import *
+from django.contrib.auth.decorators import login_required
+#from django.contrib.auth.decorators import login_required
+
 
 from django.http import HttpResponse
 #from django.views.decorators.csrf import csrf_exempt
@@ -37,7 +40,7 @@ from rest_framework.renderers import JSONRenderer
 
 from django.db.models import Avg
 
-
+#@login_required
 class TopEmployeesViewSet(viewsets.ReadOnlyModelViewSet):
 	queryset = Resource.objects.all().annotate(
 		avg_grade=Avg('evaluation__grade')
@@ -50,11 +53,12 @@ class TopEmployeesViewSet(viewsets.ReadOnlyModelViewSet):
 	print('this is where its at2')
 	print(str(serializer_class.data))
 
-
+#@login_required
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
 	queryset = User.objects.all()
 	serializer_class=UserSerializer
-	
+
+#@login_required	
 class OfficeViewSet(viewsets.ModelViewSet):
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 	queryset = Office.objects.all()
@@ -63,6 +67,7 @@ class OfficeViewSet(viewsets.ModelViewSet):
 	def perform_create(self, serializer):
 	    serializer.save(owner=self.request.user)
 
+#@login_required
 class ResourceViewSet(viewsets.ModelViewSet):
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 	queryset = Resource.objects.all()
@@ -70,6 +75,7 @@ class ResourceViewSet(viewsets.ModelViewSet):
 	filter_backends = (filters.DjangoFilterBackend,)
 	filter_fields = ('id', 'office', 'employee')
 
+#@login_required
 class EvaluationViewSet(viewsets.ModelViewSet):
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 	queryset = Evaluation.objects.all()
@@ -158,7 +164,7 @@ def index(request):
 
 	"""
 
-
+@login_required
 @csrf_protect
 @ensure_csrf_cookie
 def index(request):
@@ -251,7 +257,7 @@ def user_login(request):
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
-                return HttpResponseRedirect('/custfeedapp/')
+                return HttpResponseRedirect('/')
             else:
                 # An inactive account was used - no logging in!
                 return HttpResponse("Your account is disabled.")
@@ -268,7 +274,6 @@ def user_login(request):
         return render(request, 'custfeedapp/login.html', {})
 
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
 
 # Use the login_required() decorator to ensure only those logged in can access the view.
 @login_required
