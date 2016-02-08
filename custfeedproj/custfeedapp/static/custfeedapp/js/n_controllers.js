@@ -455,7 +455,7 @@ officeControllers.controller('EvaluationCtrl', ['$scope', '$routeParams', '$http
 			
 		    evaluation.$save(function(){
 				$location.path("/complete/"+evaluation.id);
-				alert("ran code");
+//				alert("ran code");
 		    });
 		}
   }]);

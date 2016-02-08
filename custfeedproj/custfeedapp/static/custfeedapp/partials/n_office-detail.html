@@ -3,7 +3,10 @@
 		<div class="col-md-2">
 			<!--Sidebar content-->
 		
-			Search:<input ng-model="query">
+			<br>
+			<input ng-model="query" type="text" class="form-control" placeholder="Search Employees">
+
+<!--
 			Sort by:
 			<select ng-model="orderProp">
 			  <option value="first_name">First Name</option>
@@ -11,11 +14,14 @@
 			  <option value="position">Position</option>
 			</select>
 			[[orderProp]]
+-->
 		</div>
+
+
 		
 		<div class="col-md-10">
 			<!--Body content-->
-			
+			<br>
 			<ul class="phones">
 				<li ng-repeat="resource in resources | filter:query | orderBy:orderProp" class="thumbnail">
 					<a href="#/evaluation[[resource.id]]" class="thumb"><img ng-src="static/custfeedapp/[[resource.picture]]"></a>
@@ -28,4 +34,6 @@
 	</div>
 </div>
 
+<!--
 <pre>[[resources | filter:query | orderBy:orderProp | json]]</pre>
+-->

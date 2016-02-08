@@ -2,20 +2,25 @@
 	<div class="row">
 		<div class="col-md-2">
 			<!--Sidebar content-->
-		
+
+			<!--		
 			Search:<input ng-model="query">
+
 			Sort by:
 			<select ng-model="orderProp">
 			  <option value="-id">id desc</option>
 			  <option value="-name">name</option>
 			  <option value="id">id asc</option>
 			</select>
-			[[orderProp]]
+			-->
+			<br>
+			<input ng-model="query" type="text" class="form-control" placeholder="Search Offices">
+
 		</div>
 		
 		<div class="col-md-10">
 			<!--Body content-->
-			
+			<br>
 			<ul class="phones">
 				<li ng-repeat="office in offices | filter:query | orderBy:orderProp" class="thumbnail">
 					<a href="#/offices[[office.id]]" class="thumb"><img ng-src="[[office.image]]"></a>
@@ -25,7 +30,13 @@
 				</li>
 			</ul>
 		</div>
-	</div>
-</div>
+		
+	</div> <!--Row content-->
+</div> <!--Container content-->
 
+
+
+<!--
+Show JSON results:
 <pre>[[offices | filter:query | orderBy:orderProp | json]]</pre>
+-->
